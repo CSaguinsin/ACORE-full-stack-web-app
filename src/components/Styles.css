@@ -1,0 +1,25 @@
+a {
+    font-family: 'Lemon', serif;
+}
+
+.herotitle {
+    font-family: 'Lemon', serif;
+    color: #4190C3;
+    font-size: 4rem;
+}
+
+.servicetitle {
+    font-family: 'Lemon', serif;
+    color: #4190C3;
+    font-size: 3rem;
+}
+
+.herographic {
+    height: 85vh;
+}
+
+.paragph {
+    font-family: 'Lemon', serif;
+    color: #4190C3;
+    font-size: 1rem;
+}
