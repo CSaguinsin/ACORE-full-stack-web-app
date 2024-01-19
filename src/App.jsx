@@ -7,6 +7,7 @@ import HeroSection from './components/HeroSection'
 import Services from './components/Services'
 import Schedule from './components/Schedule'
 import Footer from './components/Footer'
+import Location from './components/Location'
 function App() {
 
 
@@ -17,6 +18,7 @@ function App() {
       <HeroSection />
       <Services />
       <Schedule />
+      <Location />
       <Footer />
     </div>
     </>
