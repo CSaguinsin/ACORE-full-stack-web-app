@@ -31,23 +31,23 @@ const Parent = () => {
         {
             name: 'PEDIA CHECKUP AND VACCINES',
             description: 'Every Wednesday and Friday 9am to 11am (By Appointment).',
-            serviceNumber: '01',
+            serviceNumber: '05',
         },
         // Add more services as needed
         {
             name: 'NORMAL SPONTANEOUS DELIVERY',
             description: 'Monday, Wednesday & Friday (1pm - 5pm) Tuesday, Thursday, Saturday, & Sunday (8am - 5pm)',
-            serviceNumber: '02',
+            serviceNumber: '06',
         },
         {
             name: 'ULTRASOUND',
             description: 'Family planning services at A-core provide a comprehensive and compassionate approach to reproductive health',
-            serviceNumber: '03',
+            serviceNumber: '07',
         },
         {
             name: 'EAR PIERCING',
             description: 'Monday, Wednesday & Friday (1pm - 5pm) Tuesday, Thursday, Saturday, & Sunday (8am - 5pm)',
-            serviceNumber: '03',
+            serviceNumber: '08',
         },
     ]
 
@@ -60,15 +60,16 @@ const Parent = () => {
 const Services = ({ servicesData, secondServiceData }) => {
     return (
         <>
+    <div className='pt-20'>
             <div style={{ backgroundColor: '#FEE9FF' }}>
-                <h1 className="dark:text-white justify-center text-center my-4 servicetitle sm:justify-center">
+                <h1 className="dark:text-white justify-center text-center my-4  servicetitle sm:justify-center">
                     Our Services
                 </h1>
                 <div className="flex flex-col sm:flex-row">
                     <div className="sm:w-1/2">
                         <img src={service} alt="medical graphic" className='herographic' />
                     </div>
-                    <div className="flex flex-col justify-center items-start w-full lg:w-1/2 px-6 tracking-wide">
+                    <div className="planet flex flex-col justify-center items-start w-full lg:w-1/2 px-6 tracking-wide">
                         <p className="paragph text-center dark:text-white justify-center my-4  sm:justify-center">
                             At A-Core Medical & Maternity Lying-In Clinic, our unwavering commitment to providing exceptional healthcare services is at the heart of our mission. With a team of dedicated and compassionate professionals, we prioritize the well-being of our patients throughout their medical and maternity journey. Our state-of-the-art facilities and personalized care approach ensure that each individual receives comprehensive and tailored services, fostering a safe and comfortable environment. From medical consultations to maternity care, we strive to exceed expectations, empowering our community with the highest standards of healthcare. Your health is our priority, and at A-Core, we are here to support you every step of the way.
                         </p>
@@ -76,7 +77,7 @@ const Services = ({ servicesData, secondServiceData }) => {
                 </div>
 
                 {/* services */}
-                <div className="flex flex-col sm:flex-row justify-center items-center gap-8 my-8">
+                <div className="rocket flex flex-col sm:flex-row justify-center items-center gap-8 my-8">
                     {servicesData.map((service, index) => (
                         <div key={index} className="service-card w-64 lg:w-[300px] shadow-xl cursor-pointer snap-start shrink-0 py-8 px-6 bg-white flex flex-col items-start gap-3 transition-all duration-300 group hover:bg-[#202127]">
                                             <svg
@@ -129,6 +130,7 @@ const Services = ({ servicesData, secondServiceData }) => {
                 </div>
                 
             </div>
+    </div>
         </>
     );
 };
