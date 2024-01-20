@@ -8,6 +8,7 @@ import Services from './components/Services'
 import Schedule from './components/Schedule'
 import Footer from './components/Footer'
 import Location from './components/Location'
+import Appointment from './components/Appointment'
 function App() {
 
 
@@ -19,6 +20,7 @@ function App() {
       <Services />
       <Schedule />
       <Location />
+      <Appointment />
       <Footer />
     </div>
     </>

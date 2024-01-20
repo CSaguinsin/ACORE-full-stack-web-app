@@ -1,6 +1,6 @@
 import React from 'react';
 import schedgraphic from '../assets/schedule.png';
-
+import {Card, CardHeader, CardBody, CardFooter, Image, Button} from "@nextui-org/react";
 const schedData = [
   {
     day: 'Monday',
@@ -62,10 +62,10 @@ const Schedule = () => {
               {item.time}
             </p>
           </div>
-        ))}
-        {/* <div className="lg:w-1/2 lg:pl-6">
-          <img src={schedgraphic} alt="medical graphic" className="herographic" />
-        </div> */}
+        ))} 
+      </div>
+      <div className="flex justify-center">
+        <Image src={schedgraphic} width={500} height={500} />
       </div>
     </>
   );
