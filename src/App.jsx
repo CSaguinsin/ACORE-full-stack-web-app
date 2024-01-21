@@ -1,30 +1,34 @@
-import React from 'react'
-import './App.css'
+import React from 'react';
+import './App.css';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 // components
-import Navbar from './components/Navbar'
-import HeroSection from './components/HeroSection'
-import Services from './components/Services'
-import Schedule from './components/Schedule'
-import Footer from './components/Footer'
-import Location from './components/Location'
-import Appointment from './components/Appointment'
+import HeroSection from './components/HeroSection';
+import Footer from './components/Footer';
+
+// react router
+import LogIn from './components/logIn/LogIn';
+import Register from './components/register/Register';
+import AdminPanel from './components/adminPanel/AdminPanel';
+
 function App() {
-
-
   return (
-    <>
     <div style={{ backgroundColor: '#E9FEF8' }}>
-      <Navbar />  
-      <HeroSection />
-      <Services />
-      <Schedule />
-      <Location />
-      <Appointment />
-      <Footer />
+      <Routes>
+        <Route path='/' element={<HeroSection />} />
+
+        {/* Routes for both people */}
+          <Route path='/logIn' element={<LogIn />} />
+          <Route path='/register' element={<Register />} />
+        {/* end */}
+
+        {/* route for admin */}
+          <Route path='/adminPanel' element={<AdminPanel />} />
+        {/* end */}
+        </Routes>
+        <Footer />
     </div>
-    </>
-  )
+  );
 }
 
-export default App
+export default App;

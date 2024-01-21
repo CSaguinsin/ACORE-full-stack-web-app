@@ -1,10 +1,11 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import '../components/Styles.css';
 import Contact from '../assets/contact.png';
 import phoneLogo from '../assets/phoneLogo.png';
 import emailLogo from '../assets/emailLogo.png';
 import locationLogo from '../assets/locationLogo.png';
-
+import logIn from '../components/logIn/LogIn'
 const defaultAppointmentData = [
   {
     logo: phoneLogo,
@@ -35,11 +36,13 @@ const Appointment = ({ appointmentData = defaultAppointmentData }) => {
           <img src={Contact} alt="Contact" style={{ height: '40rem' }} />
         </div>
         <div className='flex justify-center'>
+          <Link to='/logIn'>
           <button className="w-40 h-12 bg-white cursor-pointer rounded-3xl border-2 border-[#9748FF] shadow-[inset_0px_-2px_0px_1px_#9748FF] group hover:bg-[#9748FF] transition duration-300 ease-in-out">
             <span className="paragph group-hover:text-white">
               Click Here!
             </span>
           </button>
+          </Link>
         </div>
         <div className='flex justify-center pt-1'>
           <p className='paragph'>Schedule your clinic appointment today!</p>
