@@ -6,6 +6,7 @@ import Location from './Location';
 import Appointment from './Appointment';
 import Navbar from './Navbar';
 import Herographic from '../assets/medicalgraphic.png'
+import Footer from './Footer';
 const HeroSection = () => {
   return (
     <>
@@ -25,6 +26,7 @@ const HeroSection = () => {
         <Schedule />
         <Location />
         <Appointment />
+        <Footer />
     </>
   )
 }
