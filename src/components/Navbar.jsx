@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import Logo from '../assets/logo.png'
 import '../components/Styles.css'
-
+import { Link } from 'react-router-dom'
 const Navbar = () => {
     const [isNavOpen, setNavOpen] = useState(false);
 
@@ -9,16 +9,13 @@ const Navbar = () => {
     <>
       <nav style={{ backgroundColor: '#C6FCED', width: '100%' }}>
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-          <a
-            href="https://flowbite.com/"
-            className="flex items-center space-x-3 rtl:space-x-reverse"
-          >
-            <img
-              src={Logo}
-              className="h-20 w-auto sm:h-20"
-              alt="Flowbite Logo"
-            />
-          </a>
+        <Link to='/logIn'>
+                    <img
+                      src={Logo}
+                      className="h-20 w-auto sm:h-20"
+                      alt="Flowbite Logo"
+                    />
+        </Link>
           <button
             onClick={() => setNavOpen(!isNavOpen)}
             type="button"
@@ -94,6 +91,7 @@ const Navbar = () => {
             About
           </a>
         </li>
+
       </ul>
     </div>
   </div>

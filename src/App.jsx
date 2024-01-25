@@ -4,12 +4,11 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 // components
 import HeroSection from './components/HeroSection';
-import Footer from './components/Footer';
 
 // react router
 import LogIn from './components/logIn/LogIn';
-import Register from './components/register/Register';
 import AdminPanel from './components/adminPanel/AdminPanel';
+import Booking from './components/Booking';
 
 function App() {
   return (
@@ -18,12 +17,13 @@ function App() {
         <Route path='/' element={<HeroSection />} />
 
         {/* Routes for both people */}
-          <Route path='/logIn' element={<LogIn />} />
-          <Route path='/register' element={<Register />} />
+         
         {/* end */}
 
         {/* route for admin */}
+          <Route path='/logIn' element={<LogIn />} /> 
           <Route path='/adminPanel' element={<AdminPanel />} />
+          <Route path='/booking' element={<Booking />} />
         {/* end */}
         </Routes>
     </div>

@@ -24,6 +24,12 @@ a {
     font-size: 1rem;
 }
 
+.paragph2 {
+  font-family: 'Lemon', serif;
+  font-size: 1rem;
+}
+
+
 /* Split the screen in half */
 .split {
     height: 100%;
@@ -38,7 +44,7 @@ a {
   /* Control the left side */
   .left {
     left: 0;
- 
+    background-color: #00DBDE;
   }
   
   /* Control the right side */
@@ -54,6 +60,7 @@ a {
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
+    width: 80%;
   }
   
   /* Style the image inside the centered container, if needed */
