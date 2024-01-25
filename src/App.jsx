@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import 'firebase/firestore';
 
 // components
 import HeroSection from './components/HeroSection';
