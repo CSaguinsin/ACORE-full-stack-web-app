@@ -1,12 +1,17 @@
-import React, {useState} from 'react'
-import { useNavigate } from 'react-router-dom';
+import React, {useState, useEffect} from 'react'
+import { useNavigate, useParams } from 'react-router-dom';
 import {  signOut } from "firebase/auth";
 import { auth } from '../../config/firebase'
+import { Link } from 'react-router-dom';
 import Logo from '../../assets/logo.png'
+import { getFirestore, collection, query, where, getDocs } from 'firebase/firestore';
 
 const AdminPanel = () => {
+  const {name} = useParams();
   const navigate = useNavigate();
   const [loggingOut, setLoggingOut] = useState(false);
+  const [userData, setUserData] = useState(null);
+  const [userName, setUserName] = useState('');
 
   const handleLogout = () => {
     setLoggingOut(true); // Set the state to indicate logging out
@@ -25,6 +30,45 @@ const AdminPanel = () => {
         // Handle error accordingly
       });
   };
+
+
+  useEffect(() => {
+    
+    const fetchUserData = async () => {
+      try {
+        const db = getFirestore();
+        const users = collection(db, 'users');
+        const q = query(peopleRef, where('name', '==', formattedName));
+    
+        const querySnapshot = await getDocs(q);
+        if (!querySnapshot.empty) {
+          querySnapshot.forEach(async (doc) => {
+            const personData = doc.data();
+            try {
+              const imageRef = ref(storage, personData.profilePictureRef);
+              const imageUrl = await getDownloadURL(imageRef);
+              const updatedPersonData = { ...personData, id: doc.id, profilePictureURL: imageUrl };
+              setUserData(updatedPersonData);
+              setComments(updatedPersonData.comments || []);
+            } catch (error) {
+              console.error('Error fetching image URL:', error);
+              console.error('Fetched user data without image URL:', personData);
+              setUserData({ ...personData, id: doc.id });
+              setComments(personData.comments || []);
+            }
+          });
+        } else {
+          console.log('No data found for the provided name:', formattedName);
+        }
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    };
+    if (name) {
+      fetchUserData();
+    }
+  }, [name]);
+
 
   return (
 <>
@@ -70,6 +114,7 @@ const AdminPanel = () => {
 
         </li>
         <li>
+          <Link to='/appointments'>
           <a
             href="#"
             className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
@@ -86,6 +131,7 @@ const AdminPanel = () => {
             <span className="flex-1 ms-3 whitespace-nowrap">Appointments</span>
 
           </a>
+          </Link>
         </li>
         <li>
           <a
@@ -134,6 +180,68 @@ const AdminPanel = () => {
       </ul>
     </div>
   </aside>
+
+  {userData && (
+        <section className="container px-6 py-12 mx-auto">
+          <div className="container px-6 py-12 mx-auto flex flex-col lg:flex-row">
+            <div className="lg:w-1/2">
+              <div className="mt-6 border-t border-gray-100">
+                <dl className="divide-y divide-gray-100">
+                  <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt className="text-sm font-medium leading-6 text-gray-900">First Name</dt>
+                    <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                      {userData.firstName || 'Loading...'}
+                    </dd>
+                  </div>
+                  <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt className="text-sm font-medium leading-6 text-gray-900">Last Name</dt>
+                    <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                      {userData.lastName || 'Loading...'}
+                    </dd>
+                  </div>
+                  <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt className="text-sm font-medium leading-6 text-gray-900">Address</dt>
+                    <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                      {userData.address || 'Loading...'}
+                    </dd>
+                  </div>
+                  <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt className="text-sm font-medium leading-6 text-gray-900">Contact Number</dt>
+                    <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                      {userData.contact || 'Loading...'}
+                    </dd>
+                  </div>
+                  <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt className="text-sm font-medium leading-6 text-gray-900">About</dt>
+                    <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                      {userData.about || 'Loading...'}
+                    </dd>
+                  </div>
+                </dl>
+              </div>
+              <h1>Works</h1>
+              <div className='imageholder container px-6 py-12 mx-auto flex flex-col lg:flex-row'>
+                {[1, 2, 3].map((index) => (
+                  <React.Fragment key={index}>
+                    <img
+                      src={imageholderf}
+                      className='imageholderf'
+                      style={{ marginRight: '10px' }} // Adjust the margin value as needed
+                    />
+                  </React.Fragment>
+                ))}
+              </div>
+              <Link to='/build-masters-hub'>
+                <a href="#" className="inline-block">
+                  <button className="w-40 h-12 bg-white cursor-pointer rounded-3xl border-2 border-[#9748FF] shadow-[inset_0px_-2px_0px_1px_#9748FF] group hover:bg-[#9748FF] transition duration-300 ease-in-out">
+                    <span className="font-medium text-[#333] group-hover:text-white">Back</span>
+                  </button>
+                </a>
+              </Link>
+            </div>
+          </div>
+        </section>
+      )}
 
 </>
 
