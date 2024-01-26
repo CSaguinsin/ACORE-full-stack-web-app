@@ -4,7 +4,6 @@ import { db } from '../config/firebase'; // Import your Firebase configuration
 import Navbar from './Navbar';
 import Footer from './Footer';
 import '../components/Styles.css';
-import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid'
 const Booking = () => {
   const [formData, setFormData] = useState({
     firstName: '',
@@ -15,10 +14,7 @@ const Booking = () => {
     province: '',
     postalCode: '',
     about: '',
-    fileURL: '', // Store the file URL instead of the file object
   });
-
-  const variants = [ "underlined"];
 
   const [imgUrl, setImgUrl] = useState([]);
 
@@ -49,6 +45,35 @@ const Booking = () => {
       });
     });
   };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      // Add user data to Firestore as a new document
+      await addUserDataToFirestore(formData);
+
+      // Reset form data after successful submission
+      setFormData({
+        firstName: '',
+        lastName: '',
+        contactNumber: '',
+        address: '',
+        city: '',
+        province: '',
+        postalCode: '',
+        about: '',
+      });
+      alert('Maraming Salamat!');
+    } catch (error) {
+      console.error('Error adding document: ', error);
+      alert('An error occurred while submitting data.');
+    }
+  };
+
+  const addUserDataToFirestore = async (userData) => {
+    const usersCollection = collection(db, 'users');
+    await addDoc(usersCollection, userData);
+  };
   return (
     <>
     <Navbar />
@@ -62,7 +87,7 @@ const Booking = () => {
     </div>
 
 <div className='pl-8 pr-8'>
-    <form>
+    <form onSubmit={handleSubmit}>
       <div className="space-y-12">
         <div className="border-b border-gray-900/10 pb-12">
           <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
@@ -72,6 +97,8 @@ const Booking = () => {
               </label>
               <div className="mt-2">
                 <input
+                  value={formData.firstName}
+                  onChange={(e) => handleInputChange(e, 'firstName')}
                   type="text"
                   name="first-name"
                   id="first-name"
@@ -87,6 +114,8 @@ const Booking = () => {
               </label>
               <div className="mt-2">
                 <input
+                  value={formData.lastName}
+                  onChange={(e) => handleInputChange(e, 'lastName')}
                   type="text"
                   name="last-name"
                   id="last-name"
@@ -102,6 +131,8 @@ const Booking = () => {
               </label>
               <div className="mt-2">
                 <input
+                 value={formData.contactNumber}
+                 onChange={(e) => handleInputChange(e, 'contactNumber')}
                   id="email"
                   name="email"
                   type="email"
@@ -118,6 +149,8 @@ const Booking = () => {
               </label>
               <div className="mt-2">
                 <input
+                   value={formData.address}
+                  onChange={(e) => handleInputChange(e, 'address')}
                   type="text"
                   name="street-address"
                   id="street-address"
@@ -133,6 +166,8 @@ const Booking = () => {
               </label>
               <div className="mt-2">
                 <input
+                  value={formData.city}
+                  onChange={(e) => handleInputChange(e, 'city')}
                   type="text"
                   name="city"
                   id="city"
@@ -148,6 +183,8 @@ const Booking = () => {
               </label>
               <div className="mt-2">
                 <input
+                  value={formData.province}
+                  onChange={(e) => handleInputChange(e, 'province')}
                   type="text"
                   name="region"
                   id="region"
@@ -163,6 +200,8 @@ const Booking = () => {
               </label>
               <div className="mt-2">
                 <input
+                  value={formData.postalCode}
+                  onChange={(e) => handleInputChange(e, 'postalCode')}
                   type="text"
                   name="postal-code"
                   id="postal-code"
@@ -180,6 +219,8 @@ const Booking = () => {
               </label>
               <div className="mt-2">
                 <textarea
+                                  value={formData.about}
+                                  onChange={(e) => handleInputChange(e, 'about')}
                   id="about"
                   name="about"
                   rows={3}
