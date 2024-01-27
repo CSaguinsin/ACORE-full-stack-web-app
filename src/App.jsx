@@ -8,7 +8,6 @@ import HeroSection from './components/HeroSection';
 
 // react router
 import LogIn from './components/logIn/LogIn';
-import AdminPanel from './components/adminPanel/AdminPanel';
 import Booking from './components/Booking';
 import Appointments from './components/adminPanel/Appointments'
 function App() {
@@ -23,7 +22,6 @@ function App() {
 
         {/* route for admin */}
           <Route path='/logIn' element={<LogIn />} /> 
-          <Route path='/adminPanel' element={<AdminPanel />} />
           <Route path='/booking' element={<Booking />} />
           <Route path='/appointments' element={<Appointments />} />
 

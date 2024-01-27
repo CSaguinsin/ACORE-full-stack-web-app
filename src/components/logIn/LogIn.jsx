@@ -8,7 +8,7 @@ import {Input} from "@nextui-org/react";
 import {EyeFilledIcon} from "./EyeFilledIcon";
 import {EyeSlashFilledIcon} from "./EyeSlashFilledIcon";
 import {Button} from "@nextui-org/react";
-import AdminPanel from "../adminPanel/AdminPanel";
+
 const LogIn = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
@@ -20,7 +20,7 @@ const LogIn = () => {
       .then((userCredential) => {
           // Signed in
           const user = userCredential.user;
-          navigate("/adminPanel")
+          navigate("/appointments")
           console.log(user);
       })
       .catch((error) => {
@@ -40,7 +40,7 @@ const LogIn = () => {
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
-        navigate("/adminPanel");
+        navigate("/appointments");
         console.log(user);
       })
       .catch((error) => {
