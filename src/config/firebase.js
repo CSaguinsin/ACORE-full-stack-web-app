@@ -3,7 +3,8 @@ import { getAnalytics } from "firebase/analytics";
 import {getAuth, GoogleAuthProvider} from "firebase/auth";
 import {getFirestore} from 'firebase/firestore';
 import { getStorage } from "firebase/storage";
-  
+import { deleteDoc } from 'firebase/firestore';
+
 const firebaseConfig = {
   apiKey: "AIzaSyDQziUc7wqUyvAsEIuamR9H1_L_NjisLA0",
   authDomain: "a-core-web-app.firebaseapp.com",
@@ -21,3 +22,4 @@ export const auth = getAuth(app);
 export const googleProvider = new GoogleAuthProvider();
 export const db = getFirestore(app);
 export const storage = getStorage(app);
+export const deleteDocument = deleteDoc;

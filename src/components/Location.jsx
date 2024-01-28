@@ -4,7 +4,7 @@ import '../components/Styles.css'
 const Location = () => {
   return (
     <>
-<section className='pt-10 pb-10'>
+<section id='location' className='pt-10 pb-10'>
           <div>
             <h1 className="pt-10 dark:text-white justify-center text-center my-4 servicetitle sm:justify-center">
                 Our Location

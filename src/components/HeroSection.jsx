@@ -7,11 +7,16 @@ import Appointment from './Appointment';
 import Navbar from './Navbar';
 import Herographic from '../assets/medicalgraphic.png'
 import Footer from './Footer';
+import About from './About';
 const HeroSection = () => {
   return (
     <>
             <Navbar />
-        <div className="flex flex-col-reverse lg:flex-row">
+            <br />
+            <br />
+            <br />
+            <br />
+        <div id='/' className="flex flex-col-reverse lg:flex-row">
             <div className="flex flex-col justify-center items-start w-full lg:w-1/2 px-6 ">
               <h1 className=" dark:text-white my-4 herotitle sm:text-center">
               A-Core Medical & Maternity Lying-In Clinic
@@ -25,6 +30,7 @@ const HeroSection = () => {
         <Services />
         <Schedule />
         <Location />
+        <About />
         <Appointment />
         <Footer />
     </>

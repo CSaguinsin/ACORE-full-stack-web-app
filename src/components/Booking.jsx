@@ -89,7 +89,7 @@ const Booking = () => {
   return (
     <>
     <Navbar />
-    <div>
+    <div className='pt-20'>
         <h1 className="pt-10 dark:text-white justify-center text-center my-4 servicetitle sm:justify-center">
           MAKE AN APPOINTMENT NOW!
         </h1>
@@ -230,7 +230,7 @@ const Booking = () => {
 
       <div className="col-span-full">
               <label htmlFor="about" className="block text-sm font-medium leading-6 text-gray-900">
-                About
+                Reason of your clinic appointment
               </label>
               <div className="mt-2">
                 <textarea
@@ -253,7 +253,7 @@ const Booking = () => {
           type="submit"
           className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
         >
-          Save
+          Send
         </button>
       </div>
     </form>

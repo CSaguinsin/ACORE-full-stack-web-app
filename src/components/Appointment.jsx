@@ -27,9 +27,9 @@ const defaultAppointmentData = [
 const Appointment = ({ appointmentData = defaultAppointmentData }) => {
   return (
     <>
-      <div className='pt-10'>
+      <div id='appointment' className='pt-10'>
         <h1 className="pt-10 dark:text-white justify-center text-center my-4 servicetitle sm:justify-center">
-          BOOK AN APPOINTMENT NOW!
+        Schedule your clinic appointment today!
         </h1>
 
         <div className='flex justify-center'>
@@ -43,9 +43,6 @@ const Appointment = ({ appointmentData = defaultAppointmentData }) => {
             </span>
           </button>
           </Link>
-        </div>
-        <div className='flex justify-center pt-1'>
-          <p className='paragph'>Schedule your clinic appointment today!</p>
         </div>
         {/* div for logo */}
         <section className="rocket flex flex-col sm:flex-row justify-center items-center gap-8 my-8">

@@ -3,13 +3,11 @@ import { useNavigate, useParams, Link } from 'react-router-dom';
 import { signOut } from 'firebase/auth';
 import { auth } from '../../config/firebase';
 import { getFirestore, collection, query, where, getDocs, doc } from 'firebase/firestore';
-import { onSnapshot } from 'firebase/firestore';
-import { getDownloadURL, ref } from 'firebase/storage';
 import Logo from '../../assets/logo.png'
-import { PaperClipIcon } from '@heroicons/react/20/solid'
 import { db } from '../../config/firebase';
 import {Button} from "@nextui-org/react";
 import {UserIcon} from './UserIcon';
+import { deleteDoc } from 'firebase/firestore';
 
 
 const Appointments = () => {
@@ -50,7 +48,20 @@ const Appointments = () => {
       });
   };
 
-
+  const handleDeleteAppointment = async (id) => {
+    try {
+      // Assuming 'appointmentsRef' is a reference to your Firestore collection
+      const appointmentDocRef = doc(appointmentsRef, id);
+      await deleteDoc(appointmentDocRef);
+  
+      // Update the state to remove the deleted appointment
+      setAppointments((prevAppointments) =>
+        prevAppointments.filter((appointment) => appointment.id !== id)
+      );
+    } catch (error) {
+      console.error('Error deleting appointment:', error);
+    }
+  };
   return (
     <>
     <button
@@ -185,24 +196,19 @@ const Appointments = () => {
             </div>
           </dl>
         </div>
+        <div className="flex gap-4 items-center">
+  <Button
+    color="danger"
+    variant="bordered"
+    startContent={<UserIcon />}
+    onClick={() => handleDeleteAppointment(appointment.id)}
+  >
+    Delete Appointment
+  </Button>
+</div>
       </React.Fragment>
     ))}
-      <div className="flex gap-4 items-center">
-      <Button color="danger" variant="bordered" startContent={<UserIcon/>}>
-        Delete Appointment
-      </Button>
-    </div>
   </div>
-
-    {/* <div>
-      {appointments.map((appointment) => (
-        <div>
-          <h1>
-              {appointment.firstName}
-          </h1>
-        </div>
-      ))}
-    </div> */}
 </>
   );
 };

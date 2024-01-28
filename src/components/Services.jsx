@@ -60,7 +60,7 @@ const Parent = () => {
 const Services = ({ servicesData, secondServiceData }) => {
     return (
         <>
-    <div className='pt-20'>
+    <div id="services" className='pt-20'>
             <div style={{ backgroundColor: '#FEE9FF' }}>
                 <h1 className="dark:text-white justify-center text-center my-4  servicetitle sm:justify-center">
                     Our Services
