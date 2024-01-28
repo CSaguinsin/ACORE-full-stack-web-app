@@ -5,6 +5,11 @@ import 'firebase/firestore';
 
 // components
 import HeroSection from './components/HeroSection';
+import Navbar from './components/Navbar';
+import Services from './components/Services';
+import Schedule from './components/Schedule';
+import Location from './components/Location';
+import Appointment from './components/Appointment';
 
 // react router
 import LogIn from './components/logIn/LogIn';
@@ -15,10 +20,8 @@ function App() {
     <div style={{ backgroundColor: '#E9FEF8' }}>
       <Routes>
         <Route path='/' element={<HeroSection />} />
+        
 
-        {/* Routes for both people */}
-         
-        {/* end */}
 
         {/* route for admin */}
           <Route path='/logIn' element={<LogIn />} /> 

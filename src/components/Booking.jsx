@@ -4,6 +4,8 @@ import { db } from '../config/firebase'; // Import your Firebase configuration
 import Navbar from './Navbar';
 import Footer from './Footer';
 import '../components/Styles.css';
+
+
 const Booking = () => {
   const [formData, setFormData] = useState({
     firstName: '',
@@ -62,6 +64,7 @@ const Booking = () => {
         province: '',
         postalCode: '',
         about: '',
+        services: '',
       });
       alert('Maraming Salamat!');
     } catch (error) {
@@ -74,6 +77,15 @@ const Booking = () => {
     const usersCollection = collection(db, 'users');
     await addDoc(usersCollection, userData);
   };
+
+  const [selectedKeys, setSelectedKeys] = React.useState(new Set(["text"]));
+
+  const selectedValue = React.useMemo(
+    () => Array.from(selectedKeys).join(", ").replaceAll("_", " "),
+    [selectedKeys]
+  );
+
+
   return (
     <>
     <Navbar />
@@ -135,8 +147,8 @@ const Booking = () => {
                  onChange={(e) => handleInputChange(e, 'contactNumber')}
                   id="email"
                   name="email"
-                  type="email"
-                  autoComplete="email"
+                  type="number"
+                  autoComplete="number"
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
@@ -213,6 +225,9 @@ const Booking = () => {
           </div>
         </div>
       </div>
+  
+
+
       <div className="col-span-full">
               <label htmlFor="about" className="block text-sm font-medium leading-6 text-gray-900">
                 About

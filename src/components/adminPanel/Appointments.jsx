@@ -2,16 +2,38 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { signOut } from 'firebase/auth';
 import { auth } from '../../config/firebase';
-import { getFirestore, collection, query, where, getDocs } from 'firebase/firestore';
+import { getFirestore, collection, query, where, getDocs, doc } from 'firebase/firestore';
 import { onSnapshot } from 'firebase/firestore';
 import { getDownloadURL, ref } from 'firebase/storage';
 import Logo from '../../assets/logo.png'
 import { PaperClipIcon } from '@heroicons/react/20/solid'
+import { db } from '../../config/firebase';
+import {Button} from "@nextui-org/react";
+import {UserIcon} from './UserIcon';
+
+
 const Appointments = () => {
-  const { name } = useParams();
   const navigate = useNavigate();
   const [loggingOut, setLoggingOut] = useState(false);
-  const [userData, setUserData] = useState(null);
+  const [appointments, setAppointments] = useState([]);
+
+  const appointmentsRef = collection(db, 'users');
+
+  useEffect(() => {
+    const getAppointments = async () => {
+      try {
+      const data = await getDocs(appointmentsRef);
+      const filteredData = data.docs.map((doc) => 
+            ({...doc.data(), id: doc.id,
+            }))
+      setAppointments(filteredData);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    getAppointments();
+  }, []);
 
   const handleLogout = () => {
     setLoggingOut(true);
@@ -28,50 +50,10 @@ const Appointments = () => {
       });
   };
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const db = getFirestore();
-        const usersCollection = collection(db, 'users');
-        const q = query(usersCollection, where('firstName', '==', name));
-
-        const querySnapshot = await getDocs(q);
-        if (!querySnapshot.empty) {
-          const fetchedUserData = [];
-
-          querySnapshot.forEach(async (doc) => {
-            const personData = doc.data();
-
-            try {
-              const imageRef = ref(storage, personData.profilePictureRef);
-              const imageUrl = await getDownloadURL(imageRef);
-              const updatedPersonData = { ...personData, id: doc.id, profilePictureURL: imageUrl };
-              fetchedUserData.push(updatedPersonData);
-            } catch (error) {
-              console.error('Error fetching image URL:', error);
-              console.error('Fetched user data without image URL:', personData);
-              fetchedUserData.push({ ...personData, id: doc.id });
-            }
-          });
-
-          setUserData(fetchedUserData);
-        } else {
-          console.log('No data found for the provided name:', name);
-        }
-      } catch (error) {
-        console.error('Error fetching user data:', error);
-      }
-    };
-
-    if (name) {
-      fetchUserData();
-    }
-  }, [name]);
-
 
   return (
-<>
-  <button
+    <>
+    <button
     data-drawer-target="default-sidebar"
     data-drawer-toggle="default-sidebar"
     aria-controls="default-sidebar"
@@ -132,23 +114,7 @@ const Appointments = () => {
           </a>
           </Link>
         </li>
-        <li>
-          <a
-            href="#"
-            className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
-          >
-            <svg
-              className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="currentColor"
-              viewBox="0 0 20 18"
-            >
-              <path d="M14 2a3.963 3.963 0 0 0-1.4.267 6.439 6.439 0 0 1-1.331 6.638A4 4 0 1 0 14 2Zm1 9h-1.264A6.957 6.957 0 0 1 15 15v2a2.97 2.97 0 0 1-.184 1H19a1 1 0 0 0 1-1v-1a5.006 5.006 0 0 0-5-5ZM6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM8 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Z" />
-            </svg>
-            <span className="flex-1 ms-3 whitespace-nowrap">Users</span>
-          </a>
-        </li>
+
 
         <li>
         <button onClick={handleLogout}>
@@ -180,42 +146,63 @@ const Appointments = () => {
     </div>
   </aside>
 
-  <div>
-      <div className="px-4 sm:px-0">
-        <h3 className="text-base font-semibold leading-7 text-gray-900">Applicant Information</h3>
+<div className='paragph sm:ml-20 md:ml-40 lg:ml-60 xl:ml-80 2xl:ml-96 sm:pt-5'>  
+  {appointments.map((appointment) => (
+    <React.Fragment key={appointment.id}>
+      <div className="sm:pl-8 md:pl-16 lg:pl-24 xl:pl-32 2xl:pl-40">
+        <h3 className="text-base font-semibold leading-7 text-gray-900">Patient's Information</h3>
         <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">Personal details and application.</p>
       </div>
       <div className="mt-6 border-t border-gray-100">
         <dl className="divide-y divide-gray-100">
-          <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-            <dt className="text-sm font-medium leading-6 text-gray-900">Full name</dt>
-            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">Margot Foster</dd>
-          </div>
-          <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-            <dt className="text-sm font-medium leading-6 text-gray-900">Application for</dt>
-            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">Backend Developer</dd>
-          </div>
-          <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-            <dt className="text-sm font-medium leading-6 text-gray-900">Email address</dt>
-            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">margotfoster@example.com</dd>
-          </div>
-          <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-            <dt className="text-sm font-medium leading-6 text-gray-900">Salary expectation</dt>
-            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">$120,000</dd>
-          </div>
-          <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-            <dt className="text-sm font-medium leading-6 text-gray-900">About</dt>
-            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-              Fugiat ipsum ipsum deserunt culpa aute sint do nostrud anim incididunt cillum culpa consequat. Excepteur
-              qui ipsum aliquip consequat sint. Sit id mollit nulla mollit nostrud in ea officia proident. Irure nostrud
-              pariatur mollit ad adipisicing reprehenderit deserunt qui eu.
-            </dd>
-          </div>
-          
-        </dl>
-      </div>
+            <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+              <dt className="text-sm font-medium leading-6 text-gray-900">First Name</dt>
+              <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{appointment.firstName}</dd>
+            </div>
+            <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+              <dt className="text-sm font-medium leading-6 text-gray-900">Last Name</dt>
+              <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{appointment.lastName}</dd>
+            </div>
+            <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+              <dt className="text-sm font-medium leading-6 text-gray-900">Contact Number</dt>
+              <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{appointment.contactNumber}</dd>
+            </div>
+            <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+              <dt className="text-sm font-medium leading-6 text-gray-900">City</dt>
+              <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{appointment.city}</dd>
+            </div>
+            <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+              <dt className="text-sm font-medium leading-6 text-gray-900">Address</dt>
+              <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{appointment.address}</dd>
+            </div>
+            <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+              <dt className="text-sm font-medium leading-6 text-gray-900">Province</dt>
+              <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{appointment.province}</dd>
+            </div>
+            <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+              <dt className="text-sm font-medium leading-6 text-gray-900">About</dt>
+              <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"><p>{appointment.about}</p></dd>
+            </div>
+          </dl>
+        </div>
+      </React.Fragment>
+    ))}
+      <div className="flex gap-4 items-center">
+      <Button color="danger" variant="bordered" startContent={<UserIcon/>}>
+        Delete Appointment
+      </Button>
     </div>
+  </div>
 
+    {/* <div>
+      {appointments.map((appointment) => (
+        <div>
+          <h1>
+              {appointment.firstName}
+          </h1>
+        </div>
+      ))}
+    </div> */}
 </>
   );
 };
